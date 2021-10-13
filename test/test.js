@@ -185,4 +185,22 @@ describe("Point testing", function() {
     var p1 = new P(new V(0,0),[new V(2,1), new V(2,2), new V(1,3), new V(0,2),new V(0,1),new V(1,0)]);
     assert(SAT.pointInPolygon(v1, p1));
   });
+
+  it("pointInEllipse", function(){
+    var V = SAT.Vector;
+    var E = SAT.Ellipse;
+    var point = new V(3, 1);
+    var ellipse = new E(SAT.Vector(), 4, 2);
+    var collided = SAT.pointInEllipse(point, ellipse);
+    assert(collided);
+  });
+  
+  it("pointInEllipse (point outside of ellipse)", function(){
+    var V = SAT.Vector;
+    var E = SAT.Ellipse;
+    var point = new V(4, 2);
+    var ellipse = new E(SAT.Vector(), 4, 2);
+    var collided = SAT.pointInEllipse(point, ellipse);
+    assert(!collided);
+  });
 });

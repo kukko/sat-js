@@ -1071,5 +1071,23 @@
   }
   SAT['testPolygonPolygon'] = testPolygonPolygon;
 
+  // Checks whether a point is inside of an ellipse.
+  /**
+   * @param {Vector} p 
+   * @param {Ellipse} e 
+   */
+  function pointInEllipse(p, e){
+    var degreeBetweenPoints = Math.atan2(e.pos.x - p.x, e.pos.y - p.y) * (180 / Math.PI);
+    var distanceToEdge = Math.sqrt(
+      1 / (
+        Math.pow(Math.sin(degreeBetweenPoints) / e.rx, 2) + 
+        Math.pow(Math.cos(degreeBetweenPoints) / e.ry, 2)
+      )
+    );
+    var distanceToPoint = T_VECTORS.pop().copy(e.pos).sub(e.pos).sub(p);
+    return distanceToPoint.len() <= distanceToEdge;
+  }
+  SAT['pointInEllipse'] = pointInEllipse;
+
   return SAT;
 }));
