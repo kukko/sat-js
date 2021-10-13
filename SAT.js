@@ -320,6 +320,23 @@
   }
   SAT['Polygon'] = Polygon;
 
+  // Creates a new ellipse, passing in a vector as the center of the ellipse and it's radius
+  // on the x and it's radius on the y axis. I no position is passed in, the center of the 
+  // Ellipse will be `(0,0)`. If no radius will be passed in for an axis, the ellipse's radius
+  // will be `0` on that axis.
+  /**
+   * 
+   * @param {Vector} pos 
+   * @param {number} rx 
+   * @param {number} ry 
+   */
+  function Ellipse(pos, rx, ry){
+    this['pos'] = pos || new Vector();
+    this['rx'] = rx || 0;
+    this['ry'] = ry || 0;
+  }
+  SAT['Ellipse'] = Ellipse;
+
   // Set the points of the polygon. Any consecutive duplicate points will be combined.
   //
   // Note: The points are counter-clockwise *with respect to the coordinate system*.
