@@ -1077,17 +1077,45 @@
    * @param {Ellipse} e 
    */
   function pointInEllipse(p, e){
-    var degreeBetweenPoints = Math.atan2(e.pos.x - p.x, e.pos.y - p.y) * (180 / Math.PI);
-    var distanceToEdge = Math.sqrt(
-      1 / (
-        Math.pow(Math.sin(degreeBetweenPoints) / e.rx, 2) + 
-        Math.pow(Math.cos(degreeBetweenPoints) / e.ry, 2)
-      )
-    );
-    var distanceToPoint = T_VECTORS.pop().copy(e.pos).sub(e.pos).sub(p);
-    return distanceToPoint.len() <= distanceToEdge;
+    var dx = p.x - e.pos.x;
+    var dy = p.y - e.pos.y;
+    return (dx * dx) / (e.rx * e.rx) + (dy * dy) / (e.ry * e.ry) <= 1;
   }
   SAT['pointInEllipse'] = pointInEllipse;
+
+  // Checks whether an ellipse is collisioning with a circle.
+  /**
+   * @param {Ellipse} e 
+   * @param {Circle} c 
+   */
+  function testEllipseCircle(e, c){
+    for (let i = 0; i < 360; i++){
+      var alpha = Math.abs(i);
+      alpha = alpha - Math.floor(alpha / 90) * 90;
+      var beta = 90 - alpha;
+      var dx = Math.cos(alpha * (Math.PI / 180)) * c.r;
+      var dy = Math.cos(beta * (Math.PI / 180)) * c.r;
+      var x;
+      var y;
+      if (e.pos.x <= c.pos.x){
+        x = c.pos.x - dx;
+      }
+      else{
+        x = c.pos.x + dx;
+      }
+      if (e.pos.y <= c.pos.y){
+        y = c.pos.y - dy;
+      }
+      else{
+        y = c.pos.y + dy;
+      }
+      if (pointInEllipse(new Vector(x, y), e)){
+        return true;
+      }
+    }
+    return false;
+  }
+  SAT['testEllipseCircle'] = testEllipseCircle;
 
   return SAT;
 }));

@@ -137,6 +137,19 @@ describe("Collision", function() {
     assert( response.overlap == 10 );
     assert( response.overlapV.x == 10 && response.overlapV.y === 0);
   });
+  
+  it("testEllipseCircle", () => {
+    var E = SAT.Ellipse;
+    var V = SAT.Vector;
+    var C = SAT.Circle;
+    
+    var ellipse = new E(new V(), 4, 2);
+    var circle = new C(new V(4, 4), 3);
+
+    var collided = SAT.testEllipseCircle(ellipse, circle);
+
+    assert(collided);
+  });
 });
 
 describe("No collision", function() {
@@ -147,6 +160,19 @@ describe("No collision", function() {
     var box1 = new B(new V(0,0), 20, 20).toPolygon();
     var box2 = new B(new V(100,100), 20, 20).toPolygon();
     var collided = SAT.testPolygonPolygon(box1, box2);
+  });
+  
+  it("testEllipseCircle", () => {
+    var E = SAT.Ellipse;
+    var V = SAT.Vector;
+    var C = SAT.Circle;
+    
+    var ellipse = new E(new V(), 4, 2);
+    var circle = new C(new V(4, 4), 2.5);
+
+    var collided = SAT.testEllipseCircle(ellipse, circle);
+
+    assert(!collided);
   });
 });
 
@@ -194,7 +220,7 @@ describe("Point testing", function() {
     var collided = SAT.pointInEllipse(point, ellipse);
     assert(collided);
   });
-  
+
   it("pointInEllipse (point outside of ellipse)", function(){
     var V = SAT.Vector;
     var E = SAT.Ellipse;
