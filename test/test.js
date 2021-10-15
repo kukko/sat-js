@@ -160,6 +160,8 @@ describe("No collision", function() {
     var box1 = new B(new V(0,0), 20, 20).toPolygon();
     var box2 = new B(new V(100,100), 20, 20).toPolygon();
     var collided = SAT.testPolygonPolygon(box1, box2);
+
+    assert(!collided);
   });
   
   it("testEllipseCircle", () => {
